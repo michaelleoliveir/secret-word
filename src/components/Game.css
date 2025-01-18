@@ -1,0 +1,77 @@
+.game h1 {
+    font-size: 2.5em;
+    margin-bottom: 0.3rem;
+}
+
+.tip {
+    font-size: 1em;
+    margin-top: 0.3rem;
+}
+
+.tip span {
+    color: #42a3a9;
+    font-weight: bold;
+}
+
+.wordContainer {
+    border: 5px solid #42a3a9;
+    margin: 1.5em;
+    padding: 1.3em;
+    display: flex;
+    border-radius: 0.5rem;
+}
+
+.letter, .blankSquare {
+    font-size: 3rem;
+    background-color: #D1FDFF;
+    line-height: 5rem;
+    padding: 1rem;
+    margin: 0.3rem;
+    border-radius: 2rem;
+    color: #E0AA36;
+    font-weight: bold;
+
+    width: 40px;
+}
+
+.letterContainer {
+    margin-bottom: 1.2em;
+    display: flex;
+    flex-direction: column;
+}
+
+.letterContainer p {
+    margin-bottom: 0.3rem;
+}
+
+.letterContainer form {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    flex-direction: column;
+}
+
+.letterContainer input {
+    margin-bottom: 1rem;
+    border-radius: 2rem;
+    padding: 0.5rem;
+    width: 15rem;
+    border-style: none;
+    cursor: pointer;
+
+    text-align: center;
+    font-size: 1rem;
+}
+
+.wrongLettersContainer {
+    margin-top: 2.5rem;
+}
+
+.wrongLettersContainer p{
+    margin-bottom: 0.5rem;
+}
+
+.wrongLettersContainer span{
+    color: #42a3a9;
+    font-weight: bold;
+}
