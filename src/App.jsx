@@ -31,7 +31,7 @@ function App() {
   const [guesses, setgGuesses] = useState(quessesQty)
   const [score, setScore] = useState(0)
 
-  const pickWordAndCategory = () => {
+  const pickWordAndCategory = useCallback(() => {
     // pick category
     const categories = Object.keys(words);
     const category = categories[Math.floor(Math.random() * categories.length)];
@@ -41,10 +41,13 @@ function App() {
 
     // hint
     return [word, category]
-  }
+  }, [words])
 
   // start the secret word game
-  const startGame = () => {
+  const startGame = useCallback(() => {
+    // clear all letters
+    clearLetterStates();
+
     const [word, category] = pickWordAndCategory();
 
     // create an array of letters
@@ -59,7 +62,7 @@ function App() {
     setLetters(wordLetters);
 
     setGameState(stages[1].name);
-  }
+  }, [pickWordAndCategory])
 
   // process the letter input
   const verifyLetter = (letter) => {
@@ -91,6 +94,7 @@ function App() {
     setWrongLetters([]);
   };
 
+  // check if guesses ended
   useEffect(() => {
     if(guesses <= 0) {
       // reset all states
@@ -98,7 +102,24 @@ function App() {
 
       setGameState(stages[2].name)
     }
-  }, [guesses])
+  }, [guesses]);
+
+  // check win condition
+  useEffect(() => {
+    // o new Set() cria uma nova array somente com as letras que não foram repetidas
+    const uniqueLetters = [... new Set(letters)]
+
+    // win condition
+    if(guessedLetters.length === uniqueLetters.length && gameState === stages[1].name) {
+      // add score
+      setScore((actualScore) => actualScore + 100)
+
+      // restart game with new word
+      setTimeout(() => {
+        startGame();
+      }, 800);
+    }
+  }, [guessedLetters])
 
   const retry = () => {
     setScore(0)
@@ -110,7 +131,7 @@ function App() {
     <div className='App'>
       {gameState === "start" && <StartScreen startGame={startGame} />}
       {gameState === "game" && <Game verifyLetter={verifyLetter} pickedWord={pickedWord} pickedCategory={pickedCategory} letters={letters} guessedLetters={guessedLetters} wrongLetters={wrongLetters} guesses={guesses} score={score} />}
-      {gameState === "end" && <GameOver retry={retry} />}
+      {gameState === "end" && <GameOver retry={retry} score={score} />}
     </div>
   )
 }
